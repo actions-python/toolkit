@@ -19,8 +19,12 @@ optional-dependencies = {}
 
 [tool.hatch.envs.default]
 path = ".venv"
-dependencies = []
-pre-install-commands = []
+dependencies = [
+  "actions-python-http-client[dev]",
+]
+pre-install-commands = [
+  "pip install -e ./packages/actions-python-http-client[dev]",
+]
 post-install-commands = []
 
 [tool.hatch.envs.default.scripts]
