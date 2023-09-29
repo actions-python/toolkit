@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "actions-python"
+version = "0.0.0"
+description = "GitHub Actions Python Toolkit"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+  { name = "sudosubin", email = "sudosubin@gmail.com" },
+]
+keywords = []
+classifiers = []
+dependencies = []
+optional-dependencies = {}
+
+[tool.hatch.envs.default]
+path = ".venv"
+dependencies = []
+pre-install-commands = []
+post-install-commands = []
+
+[tool.hatch.envs.default.scripts]
+foreach = "find ./packages -mindepth 1 -maxdepth 1 -type d | xargs -I0 sh -c \"cd 0; hatch run {args}\""
+
+[tool.ruff]
+line-length = 88
+select = ["B", "E", "F", "I", "N", "RUF"]
+src = [
+  "packages/*",
+]
+
+[tool.ruff.isort]
+combine-as-imports = true
