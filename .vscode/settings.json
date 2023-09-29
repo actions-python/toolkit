@@ -1,0 +1,15 @@
+{
+  "python.linting.flake8Enabled": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": false,
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "files.insertFinalNewline": true
+  },
+  "yaml.format.printWidth": 120
+}
