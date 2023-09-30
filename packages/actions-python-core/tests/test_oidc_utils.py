@@ -2,13 +2,12 @@ import unittest
 
 import httpx
 
-from actions.http_client.auth import BearerAuth
+from actions.core.oidc_utils import BearerAuth
 
 
-class AuthTestCase(unittest.TestCase):
+class OidcUtilsTestCase(unittest.TestCase):
     def test_bearer_auth(self):
         auth = BearerAuth(token="TODO")
         request = httpx.Request("GET", "https://www.example.com")
-        flow = auth.sync_auth_flow(request)
-        request = next(flow)
+        request = next(auth.sync_auth_flow(request))
         self.assertEqual(request.headers["Authorization"], "Bearer TODO")

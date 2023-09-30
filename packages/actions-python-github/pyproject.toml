@@ -50,7 +50,6 @@ dev = [
 path = ".venv"
 features = ["dev"]
 pre-install-commands = [
-  "pip install -e ../actions-python-http-client",
   "pip install -e ../actions-python-core",
 ]
 
