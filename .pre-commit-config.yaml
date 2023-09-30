@@ -24,7 +24,7 @@ repos:
       - id: test
         name: test
         entry: hatch run workspaces foreach run test
-        args: [--filter-paths]
+        pass_filenames: false
         language: system
         types_or: [python, pyi]
 

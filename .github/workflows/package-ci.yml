@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main, feature/add-ci]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  package-ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
+          cache: "pip"
+
+      - name: Install hatch, pre-commit
+        run: |
+          pip install --disable-pip-version-check \
+            hatch==1.7.0 \
+            pre-commit==3.4.0
+
+      - name: Validate
+        run: |
+          pre-commit run \
+            --color always \
+            --show-diff-on-failure \
+            --from-ref $GITHUB_FROM_SHA \
+            --to-ref $GITHUB_TO_SHA
+        env:
+          GITHUB_FROM_SHA: ${{ github.event_name == 'push' && github.event.before || github.event.pull_request.base.sha }}
+          GITHUB_TO_SHA: ${{ github.event_name == 'push' && github.event.after || github.event.pull_request.head.sha }}

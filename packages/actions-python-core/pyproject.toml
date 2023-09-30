@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "actions-python-core"
-version = "0.0.0"
+version = "0.1.1"
 description = "Actions core lib"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -39,6 +39,9 @@ dependencies = [
   "typing-extensions>=4.6.0; python_version<\"3.11\"",
 ]
 
+[project.urls]
+Homepage = "https://github.com/actions-python/toolkit"
+
 [project.optional-dependencies]
 dev = [
   "mypy~=1.5.1",
@@ -63,6 +66,13 @@ lint = [
   "mypy .",
   "pyright .",
 ]
+
+[tool.hatch.envs.test]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11"]
+
+[tool.hatch.envs.test.scripts]
 test = "python -m unittest discover -s tests"
 
 [tool.mypy]

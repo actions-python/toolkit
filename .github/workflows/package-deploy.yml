@@ -1,0 +1,69 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, feature/add-ci]
+    paths: ["**/pyproject.toml"]
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths: ["**/pyproject.toml"]
+
+jobs:
+  package-build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: ["actions-python-core", "actions-python-github"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install hatch
+        run: pip install --disable-pip-version-check hatch==1.7.0
+
+      - name: Build package
+        run: hatch build
+        working-directory: packages/${{ matrix.workspace }}
+
+      - name: Upload package
+        uses: actions/upload-artifact@v3
+        with:
+          name: package-deploy-${{ matrix.workspace }}
+          path: packages/${{ matrix.workspace }}/dist/
+
+  package-publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    needs: package-build
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        workspace: ["actions-python-core", "actions-python-github"]
+
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install hatch
+        run: pip install --disable-pip-version-check hatch==1.7.0
+
+      - name: Download package
+        uses: actions/download-artifact@v3
+        with:
+          name: package-deploy-${{ matrix.workspace }}
+          path: packages/${{ matrix.workspace }}/dist/
+
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/${{ matrix.workspace }}/dist/
+          skip-existing: true

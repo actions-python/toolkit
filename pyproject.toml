@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "actions-python"
-version = "0.0.0"
+version = "0.1.1"
 description = "GitHub Actions Python Toolkit"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -42,6 +42,9 @@ post-install-commands = [
 [tool.hatch.envs.default.scripts]
 workspace = "python -m contrib.cli workspace {args}"
 workspaces = "python -m contrib.cli workspaces {args}"
+
+[tool.hatch.publish.index]
+disable = true
 
 [tool.ruff]
 line-length = 88
