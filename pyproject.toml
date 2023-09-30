@@ -10,27 +10,38 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-  { name = "sudosubin", email = "sudosubin@gmail.com" },
+  {name = "sudosubin", email = "sudosubin@gmail.com"},
 ]
 keywords = []
 classifiers = []
 dependencies = []
-optional-dependencies = {}
+
+[project.optional-dependencies]
+dev = [
+  "mypy~=1.5.1",
+  "pre-commit>=3.4.0",
+  "pyright~=1.1.327",
+  "ruff~=0.0.291",
+  "typer[all]>=0.9.0",
+]
 
 [tool.hatch.envs.default]
 path = ".venv"
+features = ["dev"]
 dependencies = [
   "actions-python-core[dev]",
   "actions-python-github[dev]",
 ]
 pre-install-commands = [
-  "pip install -e ./packages/actions-python-core[dev]",
-  "pip install -e ./packages/actions-python-github[dev]",
+  "pip install --disable-pip-version-check --quiet -e ./packages/actions-python-core[dev] -e ./packages/actions-python-github[dev]",
 ]
-post-install-commands = []
+post-install-commands = [
+  "pre-commit install",
+]
 
 [tool.hatch.envs.default.scripts]
-foreach = "find ./packages -mindepth 1 -maxdepth 1 -type d | xargs -I0 sh -c \"cd 0; hatch run {args}\""
+workspace = "python -m contrib.cli workspace {args}"
+workspaces = "python -m contrib.cli workspaces {args}"
 
 [tool.ruff]
 line-length = 88

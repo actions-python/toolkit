@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: "v2.10.0"
+    hooks:
+      - id: pretty-format-toml
+        args: [--autofix, --trailing-commas, --no-sort]
+
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        entry: hatch run workspaces foreach run format
+        args: [--filter-paths]
+        language: system
+        types_or: [python, pyi]
+
+      - id: lint
+        name: lint
+        entry: hatch run workspaces foreach run lint
+        args: [--filter-paths]
+        language: system
+        types_or: [python, pyi]
+
+      - id: test
+        name: test
+        entry: hatch run workspaces foreach run test
+        args: [--filter-paths]
+        language: system
+        types_or: [python, pyi]
+
+default_language_version:
+  python: "python3.11"

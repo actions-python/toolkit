@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-  { name = "sudosubin", email = "sudosubin@gmail.com" },
+  {name = "sudosubin", email = "sudosubin@gmail.com"},
 ]
 keywords = [
   "action",
@@ -54,12 +54,12 @@ pre-install-commands = []
 
 [tool.hatch.envs.default.scripts]
 format = [
-  "ruff check --fix --exit-non-zero-on-fix .",
-  "ruff format .",
+  "ruff check --fix --exit-non-zero-on-fix {args:.}",
+  "ruff format {args:.}",
 ]
 lint = [
-  "ruff check --exit-non-zero-on-fix .",
-  "ruff format --check .",
+  "ruff check --exit-non-zero-on-fix  {args:.}",
+  "ruff format --check  {args:.}",
   "mypy .",
   "pyright .",
 ]
