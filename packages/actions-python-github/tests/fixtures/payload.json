@@ -1,0 +1,15 @@
+{
+  "action": "opened",
+  "repository": {
+    "owner": {
+      "login": "actions-python"
+    },
+    "name": "toolkit"
+  },
+  "issue": {
+    "number": 1
+  },
+  "sender": {
+    "type": "User"
+  }
+}

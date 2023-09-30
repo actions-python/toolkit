@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "actions-python-github"
+version = "0.0.0"
+description = "Actions github lib"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+  { name = "sudosubin", email = "sudosubin@gmail.com" },
+]
+keywords = [
+  "action",
+  "ci",
+  "github",
+]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = [
+  "actions-python-core>=0.0.0",
+  "githubkit==0.11.0a0",
+  "pydantic>=2.0.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy~=1.5.1",
+  "pyright~=1.1.327",
+  "ruff~=0.0.291",
+]
+
+[tool.hatch.envs.default]
+path = ".venv"
+features = ["dev"]
+pre-install-commands = [
+  "pip install -e ../actions-python-http-client",
+  "pip install -e ../actions-python-core",
+]
+
+[tool.hatch.envs.default.scripts]
+format = [
+  "ruff check --fix --exit-non-zero-on-fix .",
+  "ruff format .",
+]
+lint = [
+  "ruff check --exit-non-zero-on-fix .",
+  "ruff format --check .",
+  "mypy .",
+  "pyright .",
+]
+test = "python -m unittest discover -s tests"
+
+[tool.mypy]
+ignore_missing_imports = true
+namespace_packages = false
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
