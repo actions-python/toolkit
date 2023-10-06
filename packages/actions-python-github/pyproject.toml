@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 authors = [
-  { name = "sudosubin", email = "sudosubin@gmail.com" },
+    { name = "sudosubin", email = "sudosubin@gmail.com" },
 ]
 keywords = [
     "action",
@@ -40,6 +40,9 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/actions-python/toolkit"
+
+[tool.hatch.build]
+exclude = ["/tests"]
 
 [tool.mypy]
 ignore_missing_imports = true
