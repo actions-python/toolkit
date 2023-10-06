@@ -18,7 +18,6 @@ jobs:
       - uses: eifinger/setup-rye@v1
         with:
           version: "0.15.2"
-          enable-cache: "true"
 
       - name: Validate
         run: |
