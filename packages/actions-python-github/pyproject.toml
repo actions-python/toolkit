@@ -7,7 +7,7 @@ name = "actions-python-github"
 version = "0.1.1"
 description = "Actions github lib"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [
   {name = "sudosubin", email = "sudosubin@gmail.com"},
@@ -25,7 +25,6 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -51,10 +50,13 @@ venvPath = "."
 venv = ".venv"
 
 [tool.rye]
+managed = true
 dev-dependencies = [
   "mypy~=1.5.1",
   "pyright~=1.1.327",
   "ruff~=0.0.291",
+  "tox~=4.11.3",
+  "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
 ]
 
 [tool.rye.scripts]
@@ -66,4 +68,20 @@ lint = {chain = ["lint:mypy", "lint:pyright", "lint:ruff-check .", "lint:ruff-fo
 "lint:pyright" = {cmd = "pyright ."}
 "lint:ruff-check" = {cmd = "ruff check --exit-non-zero-on-fix"}
 "lint:ruff-format" = {cmd = "ruff format --check"}
-test = {cmd = "python -m unittest discover -s tests"}
+test = {cmd = "tox"}
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py39, py310, py311, py312
+skip_missing_interpreters = false
+rye_discovery = true
+
+[testenv]
+allowlist_externals = rye
+skip_install = true
+deps = []
+commands =
+  rye sync --no-lock
+  rye run python -m unittest discover -s tests
+"""

@@ -7,7 +7,7 @@ name = "actions-python"
 version = "0.1.1"
 description = "GitHub Actions Python Toolkit"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [
   {name = "sudosubin", email = "sudosubin@gmail.com"},
@@ -17,6 +17,7 @@ classifiers = []
 dependencies = []
 
 [tool.rye]
+managed = true
 dev-dependencies = [
   "mypy~=1.5.1",
   "pre-commit>=3.4.0",
