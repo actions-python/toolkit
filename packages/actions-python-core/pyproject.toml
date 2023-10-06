@@ -4,38 +4,38 @@ build-backend = "hatchling.build"
 
 [project]
 name = "actions-python-core"
-version = "0.1.1"
+version = "0.1.2"
 description = "Actions core lib"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 authors = [
-  {name = "sudosubin", email = "sudosubin@gmail.com"},
+  { name = "sudosubin", email = "sudosubin@gmail.com" },
 ]
 keywords = [
-  "action",
-  "ci",
-  "github",
+    "action",
+    "ci",
+    "github",
 ]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
-  "Environment :: Console",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Typing :: Typed",
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
 dependencies = [
-  "aiofiles>=23.1.0",
-  "httpx>=0.23.0,<1.0.0",
-  "typing-extensions>=4.6.0; python_version<\"3.11\"",
+    "aiofiles>=23.1.0",
+    "httpx>=0.23.0,<1.0.0",
+    "typing-extensions>=4.6.0; python_version<\"3.11\"",
 ]
 
 [project.urls]
@@ -52,12 +52,12 @@ venv = ".venv"
 [tool.rye]
 managed = true
 dev-dependencies = [
-  "mypy~=1.5.1",
-  "pyright~=1.1.327",
-  "ruff~=0.0.291",
-  "tox~=4.11.3",
-  "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
-  "types-aiofiles~=23.2.0.0",
+    "mypy~=1.5.1",
+    "pyright~=1.1.327",
+    "ruff~=0.0.291",
+    "tox~=4.11.3",
+    "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
+    "types-aiofiles~=23.2.0.0",
 ]
 
 [tool.rye.scripts]
@@ -83,6 +83,6 @@ allowlist_externals = rye
 skip_install = true
 deps = []
 commands =
-  rye sync --no-lock
-  rye run python -m unittest discover -s tests
+    rye sync --no-lock
+    rye run python -m unittest discover -s tests
 """

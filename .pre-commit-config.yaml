@@ -1,10 +1,4 @@
 repos:
-  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: "v2.10.0"
-    hooks:
-      - id: pretty-format-toml
-        args: [--autofix, --no-sort, --trailing-commas]
-
   - repo: local
     hooks:
       - id: format

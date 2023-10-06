@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "actions-python"
-version = "0.1.1"
+version = "0.1.2"
 description = "GitHub Actions Python Toolkit"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 authors = [
-  {name = "sudosubin", email = "sudosubin@gmail.com"},
+    { name = "sudosubin", email = "sudosubin@gmail.com" },
 ]
 keywords = []
 classifiers = []
@@ -19,16 +19,16 @@ dependencies = []
 [tool.rye]
 managed = true
 dev-dependencies = [
-  "mypy~=1.5.1",
-  "pre-commit>=3.4.0",
-  "pyright~=1.1.327",
-  "ruff~=0.0.291",
-  "typer[all]>=0.9.0",
+    "mypy~=1.5.1",
+    "pre-commit>=3.4.0",
+    "pyright~=1.1.327",
+    "ruff~=0.0.291",
+    "typer[all]>=0.9.0",
 ]
 
 [tool.rye.scripts]
-workspace = {cmd = "python -m contrib.cli workspace"}
-workspaces = {cmd = "python -m contrib.cli workspaces"}
+workspace = { cmd = "python -m contrib.cli workspace" }
+workspaces = { cmd = "python -m contrib.cli workspaces" }
 
 [tool.rye.workspace]
 members = ["packages/*"]
