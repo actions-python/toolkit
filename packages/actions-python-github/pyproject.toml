@@ -4,77 +4,45 @@ build-backend = "hatchling.build"
 
 [project]
 name = "actions-python-github"
-version = "0.1.1"
+version = "0.1.2"
 description = "Actions github lib"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [
-  {name = "sudosubin", email = "sudosubin@gmail.com"},
+    { name = "sudosubin", email = "sudosubin@gmail.com" },
 ]
 keywords = [
-  "action",
-  "ci",
-  "github",
+    "action",
+    "ci",
+    "github",
 ]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
-  "Environment :: Console",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Typing :: Typed",
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
 dependencies = [
-  "actions-python-core>=0.1.1",
-  "githubkit==0.11.0a0",
-  "pydantic>=2.0.0,<3.0.0",
+    "actions-python-core>=0.1.2",
+    "githubkit==0.11.0a0",
+    "pydantic>=2.0.0,<3.0.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/actions-python/toolkit"
 
-[project.optional-dependencies]
-dev = [
-  "mypy~=1.5.1",
-  "pyright~=1.1.327",
-  "ruff~=0.0.291",
-]
-
-[tool.hatch.envs.default]
-path = ".venv"
-features = ["dev"]
-pre-install-commands = [
-  "pip install --disable-pip-version-check --quiet -e ../actions-python-core",
-]
-
-[tool.hatch.envs.default.scripts]
-format = [
-  "ruff check --fix --exit-non-zero-on-fix {args:.}",
-  "ruff format {args:.}",
-]
-lint = [
-  "ruff check --exit-non-zero-on-fix  {args:.}",
-  "ruff format --check  {args:.}",
-  "mypy .",
-  "pyright .",
-]
-
-[tool.hatch.envs.test]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11"]
-
-[tool.hatch.envs.test.scripts]
-test = "python -m unittest discover -s tests"
+[tool.hatch.build]
+exclude = ["/tests"]
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -83,3 +51,40 @@ namespace_packages = false
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "mypy~=1.5.1",
+    "pyright~=1.1.327",
+    "ruff~=0.0.291",
+    "tox~=4.11.3",
+    "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
+]
+
+[tool.rye.scripts]
+format = {chain = ["format:ruff-check .", "format:ruff-format ."]}
+"format:ruff-check" = {cmd = "ruff check --fix --exit-non-zero-on-fix"}
+"format:ruff-format" = {cmd = "ruff format"}
+lint = {chain = ["lint:mypy", "lint:pyright", "lint:ruff-check .", "lint:ruff-format ."]}
+"lint:mypy" = {cmd = "mypy ."}
+"lint:pyright" = {cmd = "pyright ."}
+"lint:ruff-check" = {cmd = "ruff check --exit-non-zero-on-fix"}
+"lint:ruff-format" = {cmd = "ruff format --check"}
+test = {cmd = "tox"}
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py39, py310, py311, py312
+skip_missing_interpreters = false
+rye_discovery = true
+
+[testenv]
+allowlist_externals = rye
+skip_install = true
+deps = []
+commands =
+    rye sync --no-lock
+    rye run python -m unittest discover -s tests
+"""

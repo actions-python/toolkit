@@ -19,23 +19,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: eifinger/setup-rye@v1
         with:
-          python-version: "3.11"
-          cache: "pip"
-
-      - name: Install hatch
-        run: pip install --disable-pip-version-check hatch==1.7.0
+          version: "0.15.2"
 
       - name: Build package
-        run: hatch build
+        run: rye build
         working-directory: packages/${{ matrix.workspace }}
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
           name: package-deploy-${{ matrix.workspace }}
-          path: packages/${{ matrix.workspace }}/dist/
+          path: dist/
 
   package-publish:
     name: Publish
@@ -49,21 +45,12 @@ jobs:
         workspace: ["actions-python-core", "actions-python-github"]
 
     steps:
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install hatch
-        run: pip install --disable-pip-version-check hatch==1.7.0
-
       - name: Download package
         uses: actions/download-artifact@v3
         with:
           name: package-deploy-${{ matrix.workspace }}
-          path: packages/${{ matrix.workspace }}/dist/
 
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: packages/${{ matrix.workspace }}/dist/
           skip-existing: true
