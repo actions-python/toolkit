@@ -21,6 +21,3 @@ repos:
         pass_filenames: false
         language: system
         types_or: [python, pyi]
-
-default_language_version:
-  python: "python3.11"
