@@ -9,8 +9,8 @@ on:
     paths: ["**/pyproject.toml"]
 
 jobs:
-  package-build:
-    name: Build
+  package-deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,30 +27,8 @@ jobs:
         run: rye build
         working-directory: packages/${{ matrix.workspace }}
 
-      - name: Upload package
-        uses: actions/upload-artifact@v3
-        with:
-          name: package-deploy-${{ matrix.workspace }}
-          path: dist/
-
-  package-publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
-    needs: package-build
-    permissions:
-      id-token: write
-    strategy:
-      matrix:
-        workspace: ["actions-python-core", "actions-python-github"]
-
-    steps:
-      - name: Download package
-        uses: actions/download-artifact@v3
-        with:
-          name: package-deploy-${{ matrix.workspace }}
-
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
+        if: ${{ github.event_name == 'push' }}
         with:
           skip-existing: true
