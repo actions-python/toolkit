@@ -16,8 +16,8 @@ keywords = []
 classifiers = []
 dependencies = []
 
-[project.optional-dependencies]
-dev = [
+[tool.rye]
+dev-dependencies = [
   "mypy~=1.5.1",
   "pre-commit>=3.4.0",
   "pyright~=1.1.327",
@@ -25,33 +25,17 @@ dev = [
   "typer[all]>=0.9.0",
 ]
 
-[tool.hatch.envs.default]
-path = ".venv"
-features = ["dev"]
-dependencies = [
-  "actions-python-core[dev]",
-  "actions-python-github[dev]",
-]
-pre-install-commands = [
-  "pip install --disable-pip-version-check --quiet -e ./packages/actions-python-core[dev] -e ./packages/actions-python-github[dev]",
-]
-post-install-commands = [
-  "pre-commit install",
-]
+[tool.rye.scripts]
+workspace = {cmd = "python -m contrib.cli workspace"}
+workspaces = {cmd = "python -m contrib.cli workspaces"}
 
-[tool.hatch.envs.default.scripts]
-workspace = "python -m contrib.cli workspace {args}"
-workspaces = "python -m contrib.cli workspaces {args}"
-
-[tool.hatch.publish.index]
-disable = true
+[tool.rye.workspace]
+members = ["packages/*"]
 
 [tool.ruff]
 line-length = 88
 select = ["B", "E", "F", "I", "N", "RUF"]
-src = [
-  "packages/*",
-]
+src = ["packages/*"]
 
 [tool.ruff.isort]
 combine-as-imports = true

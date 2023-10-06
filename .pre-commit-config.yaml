@@ -3,27 +3,27 @@ repos:
     rev: "v2.10.0"
     hooks:
       - id: pretty-format-toml
-        args: [--autofix, --trailing-commas, --no-sort]
+        args: [--autofix, --no-sort, --trailing-commas]
 
   - repo: local
     hooks:
       - id: format
         name: format
-        entry: hatch run workspaces foreach run format
-        args: [--filter-paths]
+        entry: rye run workspaces foreach run format
         language: system
+        pass_filenames: false
         types_or: [python, pyi]
 
       - id: lint
         name: lint
-        entry: hatch run workspaces foreach run lint
-        args: [--filter-paths]
+        entry: rye run workspaces foreach run lint
         language: system
+        pass_filenames: false
         types_or: [python, pyi]
 
       - id: test
         name: test
-        entry: hatch run workspaces foreach run test
+        entry: rye run workspaces foreach run test
         pass_filenames: false
         language: system
         types_or: [python, pyi]

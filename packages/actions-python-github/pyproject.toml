@@ -42,40 +42,6 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/actions-python/toolkit"
 
-[project.optional-dependencies]
-dev = [
-  "mypy~=1.5.1",
-  "pyright~=1.1.327",
-  "ruff~=0.0.291",
-]
-
-[tool.hatch.envs.default]
-path = ".venv"
-features = ["dev"]
-pre-install-commands = [
-  "pip install --disable-pip-version-check --quiet -e ../actions-python-core",
-]
-
-[tool.hatch.envs.default.scripts]
-format = [
-  "ruff check --fix --exit-non-zero-on-fix {args:.}",
-  "ruff format {args:.}",
-]
-lint = [
-  "ruff check --exit-non-zero-on-fix  {args:.}",
-  "ruff format --check  {args:.}",
-  "mypy .",
-  "pyright .",
-]
-
-[tool.hatch.envs.test]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11"]
-
-[tool.hatch.envs.test.scripts]
-test = "python -m unittest discover -s tests"
-
 [tool.mypy]
 ignore_missing_imports = true
 namespace_packages = false
@@ -83,3 +49,21 @@ namespace_packages = false
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+
+[tool.rye]
+dev-dependencies = [
+  "mypy~=1.5.1",
+  "pyright~=1.1.327",
+  "ruff~=0.0.291",
+]
+
+[tool.rye.scripts]
+format = {chain = ["format:ruff-check .", "format:ruff-format ."]}
+"format:ruff-check" = {cmd = "ruff check --fix --exit-non-zero-on-fix"}
+"format:ruff-format" = {cmd = "ruff format"}
+lint = {chain = ["lint:mypy", "lint:pyright", "lint:ruff-check .", "lint:ruff-format ."]}
+"lint:mypy" = {cmd = "mypy ."}
+"lint:pyright" = {cmd = "pyright ."}
+"lint:ruff-check" = {cmd = "ruff check --exit-non-zero-on-fix"}
+"lint:ruff-format" = {cmd = "ruff format --check"}
+test = {cmd = "python -m unittest discover -s tests"}
