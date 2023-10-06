@@ -18,9 +18,11 @@ jobs:
       - uses: eifinger/setup-rye@v1
         with:
           version: "0.15.2"
+          enable-cache: "true"
 
       - name: Validate
         run: |
+          rye sync
           rye run pre-commit run \
             --color always \
             --show-diff-on-failure \
