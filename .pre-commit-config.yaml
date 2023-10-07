@@ -15,6 +15,14 @@ repos:
         pass_filenames: false
         types_or: [python, pyi]
 
+      - id: pyproject-fmt
+        name: pyproject-fmt
+        entry: rye run pyproject-fmt
+        args: [--indent, "4"]
+        language: system
+        files: (^|/)pyproject\.toml$
+        types: [file, text, toml]
+
       - id: test
         name: test
         entry: rye run workspaces foreach run test

@@ -1,37 +1,26 @@
 [build-system]
-requires = ["hatchling>=1.18.0"]
 build-backend = "hatchling.build"
+requires = [
+    "hatchling",
+]
 
 [project]
 name = "actions-python"
 version = "0.1.2"
 description = "GitHub Actions Python Toolkit"
-readme = "README.md"
-requires-python = ">=3.9"
 license = "MIT"
 authors = [
     { name = "sudosubin", email = "sudosubin@gmail.com" },
 ]
-keywords = []
-classifiers = []
-dependencies = []
-
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "mypy~=1.5.1",
-    "pre-commit>=3.4.0",
-    "pyright~=1.1.327",
-    "ruff~=0.0.291",
-    "typer[all]>=0.9.0",
+requires-python = ">=3.9"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
-
-[tool.rye.scripts]
-workspace = { cmd = "python -m contrib.cli workspace" }
-workspaces = { cmd = "python -m contrib.cli workspaces" }
-
-[tool.rye.workspace]
-members = ["packages/*"]
 
 [tool.ruff]
 line-length = 88
@@ -40,3 +29,24 @@ src = ["packages/*"]
 
 [tool.ruff.isort]
 combine-as-imports = true
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "mypy~=1.5.1",
+    "pre-commit>=3.4.0",
+    "pyproject-fmt>=1.2.0",
+    "pyright~=1.1.327",
+    "ruff~=0.0.292",
+    "tox~=4.11.3",
+    "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
+    "typer[all]>=0.9.0",
+    "types-aiofiles~=23.2.0.0",
+]
+
+[tool.rye.scripts]
+workspace = { cmd = "python -m contrib.cli workspace" }
+workspaces = { cmd = "python -m contrib.cli workspaces" }
+
+[tool.rye.workspace]
+members = ["packages/*"]

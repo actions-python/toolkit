@@ -1,22 +1,24 @@
 [build-system]
-requires = ["hatchling>=1.18.0"]
 build-backend = "hatchling.build"
+requires = [
+    "hatchling",
+]
 
 [project]
 name = "actions-python-github"
 version = "0.1.2"
 description = "Actions github lib"
 readme = "README.md"
-requires-python = ">=3.9"
-license = "MIT"
-authors = [
-    { name = "sudosubin", email = "sudosubin@gmail.com" },
-]
 keywords = [
     "action",
     "ci",
     "github",
 ]
+license = "MIT"
+authors = [
+    { name = "sudosubin", email = "sudosubin@gmail.com" },
+]
+requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Console",
@@ -35,9 +37,8 @@ classifiers = [
 dependencies = [
     "actions-python-core>=0.1.2",
     "githubkit==0.11.0a0",
-    "pydantic>=2.0.0,<3.0.0",
+    "pydantic<3.0.0,>=2",
 ]
-
 [project.urls]
 Homepage = "https://github.com/actions-python/toolkit"
 
@@ -54,13 +55,6 @@ venv = ".venv"
 
 [tool.rye]
 managed = true
-dev-dependencies = [
-    "mypy~=1.5.1",
-    "pyright~=1.1.327",
-    "ruff~=0.0.291",
-    "tox~=4.11.3",
-    "tox-rye @ git+https://github.com/bluss/tox-rye@0.3.0",
-]
 
 [tool.rye.scripts]
 format = { chain = ["format:ruff-check .", "format:ruff-format ."] }
