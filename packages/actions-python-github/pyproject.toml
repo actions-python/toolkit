@@ -63,28 +63,25 @@ dev-dependencies = [
 ]
 
 [tool.rye.scripts]
-format = {chain = ["format:ruff-check .", "format:ruff-format ."]}
-"format:ruff-check" = {cmd = "ruff check --fix --exit-non-zero-on-fix"}
-"format:ruff-format" = {cmd = "ruff format"}
-lint = {chain = ["lint:mypy", "lint:pyright", "lint:ruff-check .", "lint:ruff-format ."]}
-"lint:mypy" = {cmd = "mypy ."}
-"lint:pyright" = {cmd = "pyright ."}
-"lint:ruff-check" = {cmd = "ruff check --exit-non-zero-on-fix"}
-"lint:ruff-format" = {cmd = "ruff format --check"}
-test = {cmd = "tox"}
+format = { chain = ["format:ruff-check .", "format:ruff-format ."] }
+"format:ruff-check" = { cmd = "ruff check --fix --exit-non-zero-on-fix" }
+"format:ruff-format" = { cmd = "ruff format" }
+lint = { chain = ["lint:mypy", "lint:pyright", "lint:ruff-check .", "lint:ruff-format ."] }
+"lint:mypy" = { cmd = "mypy ." }
+"lint:pyright" = { cmd = "pyright ." }
+"lint:ruff-check" = { cmd = "ruff check --exit-non-zero-on-fix" }
+"lint:ruff-format" = { cmd = "ruff format --check" }
+test = { cmd = "tox --parallel" }
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39, py310, py311, py312
-skip_missing_interpreters = false
+envlist = py{39,310,311,312}
 rye_discovery = true
+skip_missing_interpreters = false
 
 [testenv]
-allowlist_externals = rye
-skip_install = true
-deps = []
-commands =
-    rye sync --no-lock
-    rye run python -m unittest discover -s tests
+commands = python -m unittest discover -s tests
+deps =
+    -e ../actions-python-core
 """
