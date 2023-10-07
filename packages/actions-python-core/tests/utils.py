@@ -1,9 +1,15 @@
 import contextlib
 import io
 import os
+import sys
 import typing
 
-P = typing.ParamSpec("P")
+if sys.version_info < (3, 10):
+    import typing_extensions
+
+    P = typing_extensions.ParamSpec("P")
+else:
+    P = typing.ParamSpec("P")
 
 
 def capture_output(
