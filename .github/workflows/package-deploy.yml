@@ -12,6 +12,10 @@ jobs:
   package-deploy:
     name: Deploy
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
     strategy:
       matrix:
         workspace: ["actions-python-core", "actions-python-github"]
