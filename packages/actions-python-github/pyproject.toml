@@ -6,7 +6,7 @@ requires = [
 
 [project]
 name = "actions-python-github"
-version = "0.1.2"
+version = "0.1.3"
 description = "Actions github lib"
 readme = "README.md"
 keywords = [
@@ -35,7 +35,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "actions-python-core>=0.1.2",
+    "actions-python-core>=0.1.3",
 ]
 [project.optional-dependencies]
 githubkit = [
