@@ -1,3 +1,4 @@
+import asyncio
 import enum
 import os
 import sys
@@ -17,7 +18,7 @@ class InputOptions(typing.TypedDict, total=False):
     Interface for getInput options
     """
 
-    # Whether the input is required. If required and not present, will throw.
+    # Whether the input is required. If required and not present, will raise.
     required: bool
 
     # Whether leading/trailing whitespace will be trimmed for the input.
@@ -94,7 +95,7 @@ def set_secret(secret: str) -> None:
 
 def add_path(input_path: str) -> None:
     """
-    PrependsPrepends inputPath to the PATH (for this action and future actions)
+    Prepends inputPath to the PATH (for this action and future actions)
     :param input_path:
     """
     file_path = os.getenv("GITHUB_PATH")
@@ -154,11 +155,11 @@ def get_boolean_input(name: str, **options: Unpack[InputOptions]) -> bool:
     if value in true_value:
         return True
     if value in false_value:
-        return True
+        return False
 
     raise TypeError(
         f'Input does not meet YAML 1.2 "Core Schema" specification: {name}\n'
-        f"Support boolean input list: `true | True | TRUE | false | False | FALSE`"
+        "Support boolean input list: `true | True | TRUE | false | False | FALSE`"
     )
 
 
@@ -213,7 +214,8 @@ def debug(message: str) -> None:
 
 
 def error(
-    message: typing.Union[str, Exception], **properties: Unpack[AnnotationProperties]
+    message: typing.Union[str, Exception],
+    properties: typing.Optional[AnnotationProperties] = None,
 ) -> None:
     """
     Adds an error issue
@@ -222,13 +224,14 @@ def error(
     """
     issue_command(
         "error",
-        to_command_properties(properties),
+        to_command_properties(properties or {}),
         str(message) if isinstance(message, Exception) else message,
     )
 
 
 def warning(
-    message: typing.Union[str, Exception], **properties: Unpack[AnnotationProperties]
+    message: typing.Union[str, Exception],
+    properties: typing.Optional[AnnotationProperties] = None,
 ) -> None:
     """
     Adds a warning issue
@@ -237,13 +240,14 @@ def warning(
     """
     issue_command(
         "warning",
-        to_command_properties(properties),
+        to_command_properties(properties or {}),
         str(message) if isinstance(message, Exception) else message,
     )
 
 
 def notice(
-    message: typing.Union[str, Exception], **properties: Unpack[AnnotationProperties]
+    message: typing.Union[str, Exception],
+    properties: typing.Optional[AnnotationProperties] = None,
 ) -> None:
     """
     Adds a notice issue
@@ -252,14 +256,14 @@ def notice(
     """
     issue_command(
         "notice",
-        to_command_properties(properties),
+        to_command_properties(properties or {}),
         str(message) if isinstance(message, Exception) else message,
     )
 
 
 def info(message: str) -> None:
     """
-    Writes info to log with console.log.
+    Writes info to log with sys.stdout.write.
     :param message: info message
     """
     sys.stdout.write(message + os.linesep)
@@ -283,10 +287,13 @@ def end_group() -> None:
 
 
 async def group(
-    name: str, fn: typing.Callable[..., typing.Coroutine[typing.Any, typing.Any, T]]
+    name: str,
+    fn: typing.Callable[
+        ..., typing.Union[typing.Coroutine[typing.Any, typing.Any, T], T]
+    ],
 ) -> T:
     """
-    Wrap an asynchronous function call in a group.
+    Wrap a function call in a group.
 
     Returns the same type as the function itself.
     :param name: The name of the group
@@ -294,7 +301,9 @@ async def group(
     """
     start_group(name)
     try:
-        result = await fn()
+        result: typing.Any = fn()
+        if asyncio.iscoroutine(result):
+            result = await result
     finally:
         end_group()
     return result

@@ -1,0 +1,13 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      host:
+      - actions-token.url
+    method: GET
+    uri: https://actions-token.url&audience=test-audience
+  response:
+    content: '{"value": "result-token"}'
+    headers: {}
+    status_code: 200
+version: 1

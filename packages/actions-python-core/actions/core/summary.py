@@ -41,10 +41,11 @@ class SummaryWriteOptions(typing.TypedDict, total=False):
 
 class Summary:
     _buffer: str
-    _file_path: typing.Optional[str] = None
+    _file_path: typing.Optional[str]
 
     def __init__(self) -> None:
         self._buffer = ""
+        self._file_path = None
 
     async def file_path(self) -> str:
         """
@@ -56,20 +57,18 @@ class Summary:
         if self._file_path:
             return self._file_path
 
-        path_from_env = os.getenv("SUMMARY_ENV_VAR")
+        path_from_env = os.getenv(SUMMARY_ENV_VAR)
         if not path_from_env:
             raise Exception(
-                f"Unable to find environment variable for ${SUMMARY_ENV_VAR}. "
+                f"Unable to find environment variable for {SUMMARY_ENV_VAR}. "
                 "Check if your runtime environment supports job summaries."
             )
 
-        try:
-            await aiofiles.os.access(path_from_env, os.R_OK | os.W_OK)
-        except Exception as e:
+        if not await aiofiles.os.access(path_from_env, os.R_OK | os.W_OK):
             raise Exception(
                 f"Unable to access summary file: '{path_from_env}'. "
                 "Check if the file has correct read/write permissions."
-            ) from e
+            )
 
         self._file_path = path_from_env
         return self._file_path
@@ -88,7 +87,7 @@ class Summary:
         :return: content wrapped in HTML element
         """
         attrs = attrs or {}
-        html_attrs = "".join([f" {key}={value}" for key, value in attrs.items()])
+        html_attrs = "".join([f' {key}="{value}"' for key, value in attrs.items()])
         if not content:
             return f"<{tag}{html_attrs}>"
 
@@ -228,7 +227,7 @@ class Summary:
         element = self.wrap("img", None, {"src": src, "alt": alt, **options})
         return self.add_raw(element, add_eol=True)
 
-    def add_heading(self, text: str, level: typing.Union[int, str] = 1) -> Self:
+    def add_heading(self, text: str, level: typing.Union[int, float, str] = 1) -> Self:
         """
         Adds an HTML section heading element
         :params text: heading text
