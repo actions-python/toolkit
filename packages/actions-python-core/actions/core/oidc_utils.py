@@ -7,26 +7,26 @@ import httpx
 
 class OidcClient:
     @classmethod
-    def create_http_client(cls) -> httpx.AsyncClient:
-        return httpx.AsyncClient(auth=BearerAuth(token=cls.get_request_token()))
+    def _create_http_client(cls) -> httpx.AsyncClient:
+        return httpx.AsyncClient(auth=BearerAuth(token=cls._get_request_token()))
 
     @classmethod
-    def get_request_token(cls) -> str:
+    def _get_request_token(cls) -> str:
         token = os.getenv("ACTIONS_ID_TOKEN_REQUEST_TOKEN")
         if not token:
             raise Exception("Unable to get ACTIONS_ID_TOKEN_REQUEST_TOKEN env variable")
         return token
 
     @classmethod
-    def get_id_token_url(cls) -> str:
+    def _get_id_token_url(cls) -> str:
         runtime_url = os.getenv("ACTIONS_ID_TOKEN_REQUEST_URL")
         if not runtime_url:
             raise Exception("Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable")
         return runtime_url
 
     @classmethod
-    async def get_call(cls, id_token_url: str) -> str:
-        http_client = cls.create_http_client()
+    async def _get_call(cls, id_token_url: str) -> str:
+        http_client = cls._create_http_client()
 
         try:
             response = await http_client.get(id_token_url)
@@ -51,14 +51,14 @@ class OidcClient:
 
         try:
             # New ID Token is requested from action service
-            id_token_url = cls.get_id_token_url()
+            id_token_url = cls._get_id_token_url()
             if audience:
                 encoded_audience = urllib.parse.quote(audience)
                 id_token_url = f"{id_token_url}&audience={encoded_audience}"
 
-            debug(f"ID token url is ${id_token_url}")
+            debug(f"ID token url is {id_token_url}")
 
-            id_token = await cls.get_call(id_token_url)
+            id_token = await cls._get_call(id_token_url)
             set_secret(id_token)
             return id_token
         except Exception as e:

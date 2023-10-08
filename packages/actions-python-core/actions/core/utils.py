@@ -17,7 +17,7 @@ def to_command_value(input_value: typing.Any) -> str:
     elif isinstance(input_value, str):
         return input_value
     else:
-        return json.dumps(input_value)
+        return json.dumps(input_value, separators=(",", ":"))
 
 
 def to_command_properties(

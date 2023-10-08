@@ -1,6 +1,6 @@
 import os
 import typing
-from uuid import uuid4
+import uuid
 
 from actions.core.utils import to_command_value
 
@@ -20,7 +20,7 @@ def issue_file_command(command: str, message: typing.Any) -> None:
 
 
 def prepare_key_value_message(key: str, value: typing.Any) -> str:
-    delimiter = f"ghadelimiter_{uuid4()}"
+    delimiter = f"ghadelimiter_{uuid.uuid4()}"
     converted_value = to_command_value(value)
 
     # These should realistically never happen, but just in case someone finds a
