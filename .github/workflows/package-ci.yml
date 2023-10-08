@@ -15,6 +15,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: |
+          echo "$GITHUB_EVENT_PATH"
+          cat "$GITHUB_EVENT_PATH"
+
       - uses: eifinger/setup-rye@v1
         with:
           version: "0.15.2"
