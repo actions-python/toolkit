@@ -4,6 +4,12 @@ import urllib.parse
 
 import httpx
 
+from actions.core.core import debug, set_secret
+
+
+async def get_id_token(aud: typing.Optional[str] = None) -> str:
+    return await OidcClient.get_id_token(aud)
+
 
 class OidcClient:
     @classmethod
@@ -47,8 +53,6 @@ class OidcClient:
 
     @classmethod
     async def get_id_token(cls, audience: typing.Optional[str] = None) -> str:
-        from actions.core.core import debug, set_secret
-
         try:
             # New ID Token is requested from action service
             id_token_url = cls._get_id_token_url()

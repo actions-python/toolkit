@@ -30,6 +30,14 @@ src = ["packages/*"]
 [tool.ruff.isort]
 combine-as-imports = true
 
+[tool.coverage.report]
+exclude_also = [
+  "if __name__ == .__main__.:",
+  "if (typing\\.)?TYPE_CHECKING:",
+  "class .*\\bProtocol\\):",
+  "@(abc\\.)?abstractmethod",
+]
+
 [tool.rye]
 managed = true
 dev-dependencies = [
@@ -45,6 +53,9 @@ dev-dependencies = [
 ]
 
 [tool.rye.scripts]
+test = { chain = ["test:clean", "workspaces foreach run test", "test:report"] }
+"test:clean" = { cmd = "coverage erase" }
+"test:report" = { chain = ["coverage combine", "coverage report", "coverage html"] }
 workspace = { cmd = "python -m contrib.cli workspace" }
 workspaces = { cmd = "python -m contrib.cli workspaces" }
 

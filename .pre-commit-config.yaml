@@ -25,7 +25,7 @@ repos:
 
       - id: test
         name: test
-        entry: rye run workspaces foreach run test
+        entry: rye run test
         pass_filenames: false
         language: system
         types_or: [python, pyi]

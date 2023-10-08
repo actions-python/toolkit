@@ -5,7 +5,6 @@ from actions.core.core import (
     error,
     export_variable,
     get_boolean_input,
-    get_id_token,
     get_input,
     get_multiline_input,
     get_state,
@@ -21,7 +20,7 @@ from actions.core.core import (
     start_group,
     warning,
 )
-from actions.core.oidc_utils import OidcClient
+from actions.core.oidc_utils import OidcClient, get_id_token
 from actions.core.path_utils import to_platform_path, to_posix_path, to_win32_path
 from actions.core.summary import summary
 

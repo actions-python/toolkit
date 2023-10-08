@@ -1,6 +1,4 @@
-import contextlib
 import dataclasses
-import io
 import json
 import os
 import unittest
@@ -8,6 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from actions.github.context import Context
+from tests.utils import capture_output
 
 
 class ContextTestCase(unittest.TestCase):
@@ -18,12 +17,9 @@ class ContextTestCase(unittest.TestCase):
         }
         self.environ_mocked = patch.dict("os.environ", env_vars)
         self.environ_mocked.start()
-        self.stream = contextlib.redirect_stdout(io.StringIO())
-        self.stream.__enter__()
 
     def tearDown(self):
         self.environ_mocked.stop()
-        self.stream.__exit__(None, None, None)
 
     def test_returns_the_payload_object(self):
         content = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_bytes())
@@ -32,6 +28,13 @@ class ContextTestCase(unittest.TestCase):
     def test_returns_an_empty_payload_if_environment_variable_is_empty(self):
         del os.environ["GITHUB_EVENT_PATH"]
         self.assertDictEqual(Context().payload, {})
+
+    def test_returns_stdout_if_environment_variable_is_invalid(self):
+        os.environ["GITHUB_EVENT_PATH"] = "/foo/bar/baz"
+        self.assertEqual(
+            capture_output(Context),
+            "GITHUB_EVENT_PATH /foo/bar/baz does not exist",
+        )
 
     def test_returns_attributes_from_environment_variable(self):
         self.assertDictEqual(
