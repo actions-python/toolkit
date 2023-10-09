@@ -22,10 +22,3 @@ repos:
         language: system
         files: (^|/)pyproject\.toml$
         types: [file, text, toml]
-
-      - id: test
-        name: test
-        entry: rye run test
-        pass_filenames: false
-        language: system
-        types_or: [python, pyi]
