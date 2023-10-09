@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: [main, feature/improve-test]
+    branches: [main]
   pull_request:
     types: [opened, reopened, synchronize]
 
