@@ -57,6 +57,10 @@ class TestSummary(unittest.IsolatedAsyncioTestCase):
         summary.empty_buffer()
         summary._file_path = None
 
+    async def test_file_path(self):
+        for _ in range(2):
+            self.assertEqual(await summary.file_path(), self.file)
+
     async def test_raises_if_summary_env_var_is_not_set(self):
         del os.environ[SUMMARY_ENV_VAR]
         with self.assertRaisesRegex(

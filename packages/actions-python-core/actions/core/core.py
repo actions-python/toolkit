@@ -7,7 +7,6 @@ import typing
 from actions.core._compat import Unpack
 from actions.core.command import issue, issue_command
 from actions.core.file_command import issue_file_command, prepare_key_value_message
-from actions.core.oidc_utils import OidcClient
 from actions.core.utils import to_command_properties, to_command_value
 
 T = typing.TypeVar("T")
@@ -330,7 +329,3 @@ def get_state(name: str) -> str:
     :param name: name of the state to get
     """
     return os.getenv(f"STATE_{name}", "")
-
-
-async def get_id_token(aud: typing.Optional[str] = None) -> str:
-    return await OidcClient.get_id_token(aud)

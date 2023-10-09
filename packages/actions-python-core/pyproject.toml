@@ -45,6 +45,10 @@ Homepage = "https://github.com/actions-python/toolkit"
 [tool.hatch.build]
 exclude = ["/tests"]
 
+[tool.coverage.run]
+branch = true
+source_pkgs = ["actions.core"]
+
 [tool.mypy]
 ignore_missing_imports = true
 namespace_packages = false
@@ -54,6 +58,7 @@ managed = true
 dev-dependencies = [
     "parameterized~=0.9.0",
     "pytest~=7.4.2",
+    "pytest-cov~=4.1.0",
     "pytest-recording~=0.13.0",
 ]
 
@@ -76,9 +81,12 @@ rye_discovery = true
 skip_missing_interpreters = false
 
 [testenv]
-commands = pytest
+commands = pytest --cov --cov-append --cov-report=term-missing
 deps =
     parameterized~=0.9.0
     pytest~=7.4.2
+    pytest-cov~=4.1.0
     pytest-recording~=0.13.0
+setenv =
+    COVERAGE_FILE=../../.coverage.{envname}
 """
