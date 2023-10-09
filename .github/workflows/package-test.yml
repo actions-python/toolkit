@@ -24,5 +24,8 @@ jobs:
           version: "0.15.2"
           enable-cache: "true"
 
+      - name: Sync
+        run: rye sync --no-lock
+
       - name: Test
         run: rye run test
