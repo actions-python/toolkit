@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci(actions)"
+    labels:
+      - "dependabot"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci(python)"
+    labels:
+      - "dependabot"
+
+  - package-ecosystem: "pip"
+    directory: "/packages/actions-python-core"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci(python)"
+    labels:
+      - "dependabot"
+
+  - package-ecosystem: "pip"
+    directory: "/packages/actions-python-github"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci(python)"
+    labels:
+      - "dependabot"
